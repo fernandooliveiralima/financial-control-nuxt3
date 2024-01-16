@@ -9,8 +9,8 @@
             <div class="totalBalance-elements">
                 <span class="total-title">Total Balance</span>
                 <div class="total-balance">1.200,00</div>
-
             </div>
+
             <div class="line-chart">Behavior Line Graph Chartjs</div>
         </section>
 
@@ -18,6 +18,7 @@
 </template>
 
 <style lang="scss" scoped>
+    
 
     /* .container-totalBalance */
     .container-totalBalance{

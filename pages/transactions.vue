@@ -6,7 +6,7 @@
                     <span>Home</span>
                 </NuxtLink>
             </div>
-            
+            <AllTransactionsC></AllTransactionsC>
         </section>
 
     </div>
