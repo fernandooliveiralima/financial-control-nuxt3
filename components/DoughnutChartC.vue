@@ -17,7 +17,8 @@
                         data:[1,2],
                         borderWidth: 0,
                         hoverOffset: 5,
-                        backgroundColor: ['crimson', 'green']
+                        backgroundColor: ['crimson', 'green'],
+                        
                     }]
                 },
                 options:{
@@ -64,12 +65,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
 
             /* .percentual-value */
             .percentual-value{
                 font-size: 2.5rem;
                 position: absolute;
-                top: 80%;
+                top: 45%;
                 font-family: 'Alice', serif;
                 font-weight: 600;
             }

@@ -17,14 +17,28 @@ const createChart = () => {
                     label: 'Behavior Transactions',
                     data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                     fill: true,
-                    backgroundColor: '#272234',
-                    borderColor: 'green',
-                    tension: 0.1
+                    backgroundColor: '#181423',
+                    tension: 0.1,
+                    borderColor: 'green'
                 }]
             },
             options: {
                 responsive: true,
-
+                scales:{
+                    y:{
+                        ticks:{
+                            display: false
+                        },
+                        grid:{
+                            color: '#272234'
+                        }
+                    },
+                    x:{
+                        grid:{
+                            color: '#272234'
+                        }
+                    }
+                }
             }
         })
 
