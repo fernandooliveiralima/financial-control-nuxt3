@@ -6,10 +6,12 @@
             <div class="transactions-data">
                 <TransactionsInfoC></TransactionsInfoC>
                 <TotalBalanceC></TotalBalanceC>
+                
             </div>
             
             <FormTransactionsC></FormTransactionsC>
-            <div class="teste">Doughnut Chart</div>
+            <DoughnutChartC></DoughnutChartC>
+            
         </section>
 
     </div>
