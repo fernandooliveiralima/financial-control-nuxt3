@@ -20,14 +20,15 @@
                 </div>
             </div>
             <div class="btn">
-                <button>Add Transaction</button>
+                <button @click="" type="submit">Add Transaction</button>
             </div>
-            
         </form>
+        
     </div>
 </template>
 
 <script setup lang="ts">
+    
 
 </script>
 

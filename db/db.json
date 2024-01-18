@@ -1,0 +1,5 @@
+{
+    "transactions": [
+      { "id": 1, "title": "a title", "amount": 20, "date": "2024-04-17", "transactionType": "income" }
+    ]
+  }

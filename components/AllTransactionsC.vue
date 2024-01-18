@@ -9,7 +9,7 @@
             <h1>All Transactions</h1>
             <section class="container-months">
                 <button class="Prev Month">Prev Month</button>
-                <span>November</span>
+                <span>January</span>
                 <button class="Next Month">Next Month</button>
             </section>
         </div>
@@ -23,7 +23,7 @@
                 </div>
                 <div class="description-section base-column">
                     Description
-                    <span>Learn PHP</span>
+                    <span>Build App in Rust</span>
                 </div>
                 <div class="date-section base-column">
                     Date
@@ -31,7 +31,7 @@
                 </div>
                 <div class="amount-section base-column">
                     Amount
-                    <span>R$ 0,00</span>
+                    <span>R$ 1.200,00</span>
                 </div>
                 <div class="delete-section base-column">
                     Delete
