@@ -63,10 +63,6 @@
         }
     }
 
-    /* .line chart */
-    .line-chart {
-        
-        
-    }
+    
 }
 </style>

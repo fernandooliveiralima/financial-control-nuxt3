@@ -1,7 +1,21 @@
 <template>
     <div class="container-form">
         <form class="form-elements">
-            <h3>Transactions</h3>
+            <div class="header-form">
+                <h3>Transactions</h3>
+                <div class="section-transaction-type">
+                    <section class="income-section">
+                        <label for="income">Income</label>
+                        <input type="radio" name="income" id="" value="income"/>
+                    </section>
+
+                    <section class="expense-section">
+                        <label for="expense">Expense</label>
+                        <input type="radio" name="expense" id="" value="expense"/>
+                    </section>
+                </div>
+            </div>
+
 
             <div class="inputs-elements base-column">
                 <div class="description-section">
@@ -23,12 +37,21 @@
                 <button @click="" type="submit">Add Transaction</button>
             </div>
         </form>
-        
+
     </div>
 </template>
 
 <script setup lang="ts">
-    
+import { storeToRefs } from 'pinia';
+
+import { useDateStore } from '../store/dateFilterStore';
+import { useTransactionsStore } from '../store/transactionsStore';
+
+import type { Transaction } from '~/types/transaction';
+
+const dateStore = useDateStore();
+
+/* const filteredList: Array<Transaction> = reactive([]); */
 
 </script>
 
@@ -43,29 +66,78 @@
     margin-left: 1rem;
 
     /* .form-elements */
-    .form-elements{
+    .form-elements {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         height: 10rem;
 
-        /* h3 */
-        h3{
-            color: cadetblue;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        /* .header-form */
+        .header-form{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+
+            /* h3 */
+            h3 {
+                color: cadetblue;
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            /* .section-transaction-type */
+            .section-transaction-type{
+                display: flex;
+
+                /* .income-section, .expense-section */
+                .income-section, .expense-section{
+                    
+                    margin-right: 1rem;
+                    font-family: Verdana, Geneva, Tahoma, sans-serif;
+                    font-size: 1.1rem;
+                }
+
+                /* .income-section */
+                .income-section{
+                    color: green;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 5.5rem;
+
+                    /* input */
+                    input{
+                        accent-color: green;
+                    }
+                }
+
+                /* .income-section */
+                .expense-section{
+                    color: crimson;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 6rem;
+
+                    /* input */
+                    input{
+                        accent-color: crimson;
+                    }
+                }
+            }
         }
 
         /* .base-column */
         .base-column {
-            
+
             display: flex;
             align-items: center;
             justify-content: space-between;
 
-            
+
 
             /* input */
-            input{
+            input {
                 margin-left: 0.5rem;
                 outline: none;
                 padding: 0.3rem;
@@ -76,21 +148,21 @@
             }
 
             /* label */
-            label{
+            label {
                 color: chocolate;
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
             }
         }
 
         /* .btn */
-        .btn{
-            
+        .btn {
+
             display: flex;
             align-items: center;
             justify-content: center;
 
             /* button */
-            button{
+            button {
                 padding: 0.5rem;
                 font-family: Verdana, Geneva, Tahoma, sans-serif;
                 font-weight: bold;
