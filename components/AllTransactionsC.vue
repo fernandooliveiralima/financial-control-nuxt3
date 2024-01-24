@@ -1,5 +1,13 @@
 <script setup lang="ts">
+import { useTransactionsStore } from '../store/transactionsStore';
 
+
+const transactionsStore = useTransactionsStore();
+const {transactions} = storeToRefs(transactionsStore);;
+onMounted(() => {
+    console.log(`list ->`, transactions.value);
+
+})
 </script>
 
 <template>
@@ -16,22 +24,25 @@
 
 
         <section class="transaction-body">
-            <div class="transaction"> <!-- v-for() -->
+            <div class="transaction" v-for="transaction in transactions" :key="transaction.id"> <!-- v-for() -->
                 <div class="id-section base-column">
                     Id
-                    <span>1</span>
+                    <span>{{ transaction.id }}</span>
                 </div>
                 <div class="description-section base-column">
                     Description
-                    <span>Build App in Rust</span>
+                    <span>{{ transaction.title }}</span>
                 </div>
                 <div class="date-section base-column">
                     Date
-                    <span>12/01/2024</span>
+                    <span>{{ transaction.date }}</span>
                 </div>
-                <div class="amount-section base-column">
+                <div class="amount-section base-column-amount">
                     Amount
-                    <span>R$ 1.200,00</span>
+                    <span :class="transaction.transactionType === 'income' ?
+                            'bind-income' : 'bind-expense'">
+                        R$ {{ transaction.amount }}
+                    </span>
                 </div>
                 <div class="delete-section base-column">
                     Delete
@@ -95,7 +106,7 @@
         }
 
         /* span */
-        span{
+        span {
             color: chocolate;
             font-size: 1.5rem;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -142,7 +153,8 @@
 
             .amount-section span {
                 font-family: 'Alice', serif;
-                font-size: 1.3rem;
+                font-size: 1.7rem;
+                font-weight: 600;
             }
 
             /* .base-column */
@@ -167,6 +179,32 @@
                     width: 1.5rem;
                     margin-top: 0.5rem;
                 }
+            }
+
+            /* .base-column-amount */
+            .base-column-amount {
+                color: white;
+                display: flex;
+                flex-direction: column;
+                font-size: 1.3rem;
+                padding: 0rem 0.5rem;
+
+                /* span */
+                span {
+
+                    margin-top: 0.5rem;
+                }
+
+
+            }
+
+            /* class bindind amount */
+            .bind-income {
+                color: green;
+            }
+
+            .bind-expense {
+                color: crimson;
             }
         }
     }

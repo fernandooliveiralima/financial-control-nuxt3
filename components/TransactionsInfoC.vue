@@ -1,5 +1,12 @@
 <script setup lang="ts">
+    import { useTransactionsStore } from '../store/transactionsStore';
 
+    const transactionStore = useTransactionsStore();
+    const {total} = storeToRefs(transactionStore)
+    
+    onMounted(()=>{
+        console.log(`totalStore ->`, total.value);
+    })
 </script>
 
 <template>
@@ -7,15 +14,15 @@
         <section class="transactions-details">
             <div class="section-balance base-size">
                 <span>Balance</span>
-                <div>0,00</div>
+                <div>R$ {{ total }}</div>
             </div>
             <div class="section-income base-size">
                 <span>Income</span>
-                <div>0,00</div>
+                <div>R$ 0,00</div>
             </div>
             <div class="section-expense base-size">
                 <span>Expense</span>
-                <div>0,00</div>
+                <div>R$ 0,00</div>
             </div>
             
         </section>

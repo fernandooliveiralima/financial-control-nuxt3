@@ -1,48 +1,4 @@
-<template>
-    <div class="container-form">
-        <form class="form-elements">
-            <div class="header-form">
-                <h3>Transactions</h3>
-                <div class="section-transaction-type">
-                    <section class="income-section">
-                        <label for="income">Income</label>
-                        <input type="radio" name="income" id="" value="income"/>
-                    </section>
-
-                    <section class="expense-section">
-                        <label for="expense">Expense</label>
-                        <input type="radio" name="expense" id="" value="expense"/>
-                    </section>
-                </div>
-            </div>
-
-
-            <div class="inputs-elements base-column">
-                <div class="description-section">
-                    <label for="description">Description</label>
-                    <input type="text" />
-                </div>
-
-                <div class="amount-section base-column">
-                    <label for="description">Amount</label>
-                    <input min="0" step="0.01" type="number" />
-                </div>
-
-                <div class="date-section base-column">
-                    <label for="description">Date</label>
-                    <input type="date" />
-                </div>
-            </div>
-            <div class="btn">
-                <button @click="" type="submit">Add Transaction</button>
-            </div>
-        </form>
-
-    </div>
-</template>
-
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 
 import { useDateStore } from '../store/dateFilterStore';
 import { useTransactionsStore } from '../store/transactionsStore';
@@ -51,9 +7,107 @@ import type { Transaction } from '~/types/transaction';
 
 const dateStore = useDateStore();
 
+const transactionsStore = useTransactionsStore();
+const {transactions} = storeToRefs(transactionsStore);
+
+const contentFields = ref(/^\s*$/);
+const contentAmount = ref(/^\d+$/);
+const transactionType = ref('income');
+const transactionTitle = ref('');
+const transactionDate = ref(new Date());
+const transactionAmount = ref< number | undefined >(undefined);
+
 /* const filteredList: Array<Transaction> = reactive([]); */
 
+/* Functions() */
+let count = ref(0);
+const transactionId = computed(()=>{
+    return count.value++;
+})
+
+const verificarInput = (input: string)=>{
+    if (contentAmount.value.test(input)) {
+    return parseFloat(input); 
+  }
+}
+
+const addTransaction = ()=>{
+
+    if(verificarInput(`${transactionAmount.value}`) === undefined || 
+    contentFields.value.test(transactionTitle.value)){
+        alert('Preencha todos os campos!');
+        return;
+        
+    }else if(transactionType.value === 'expense' && transactionAmount.value){
+        parseFloat(`${transactionAmount.value*= -1}`)
+    }
+    
+    
+    transactions.value.unshift({
+        id: transactionId.value,
+        title: transactionTitle.value,
+        amount: transactionAmount.value,
+        date: transactionDate.value,
+        transactionType: transactionType.value
+    })
+    
+    transactionTitle.value = '';
+    transactionAmount.value = undefined;
+    transactionDate.value = new Date();
+    transactionType.value = 'income';
+    
+};
+onMounted(()=>{
+    
+        console.log(`transactions ->`,transactions.value);
+        
+        
+    
+})
 </script>
+
+<template>
+    <div class="container-form">
+        <form @submit.prevent="addTransaction" class="form-elements">
+            <div class="header-form">
+                <h3>Transactions</h3>
+                <div class="section-transaction-type">
+                    <section class="income-section">
+                        <label for="income">Income</label>
+                        <input type="radio" name="income" id="" value="income" v-model="transactionType"/>
+                    </section>
+
+                    <section class="expense-section">
+                        <label for="expense">Expense</label>
+                        <input type="radio" name="expense" id="" value="expense" v-model="transactionType"/>
+                    </section>
+                </div>
+            </div>
+
+
+            <div class="inputs-elements base-column">
+                <div class="description-section">
+                    <label for="description">Description</label>
+                    <input type="text" v-model="transactionTitle"/>
+                </div>
+
+                <div class="amount-section base-column">
+                    <label for="description">Amount</label>
+                    <input min="0" step="0.01" type="number" v-model.number="transactionAmount"/>
+                </div>
+
+                <div class="date-section base-column">
+                    <label for="description">Date</label>
+                    <input type="date" v-model="transactionDate"/>
+                </div>
+            </div>
+            <div class="btn">
+                <button @click="" type="submit">Add Transaction</button>
+            </div>
+        </form>
+        
+    </div>
+</template>
 
 <style scoped>
 /* .container-form */

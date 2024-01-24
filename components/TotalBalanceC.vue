@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import { useTransactionsStore } from '../store/transactionsStore';
 
+const transactionStore = useTransactionsStore();
+const { total } = storeToRefs(transactionStore)
+
+onMounted(() => {
+    console.log(`totalStore ->`, total.value);
+})
 </script>
 
 <template>
@@ -8,7 +15,7 @@
         <section class="totalBalance-details">
             <div class="totalBalance-elements">
                 <span class="total-title">Total Balance</span>
-                <div class="total-balance">1.200,00</div>
+                <div class="total-balance">R$ {{ total }}</div>
             </div>
 
             <section class="line-chart-component">
@@ -63,6 +70,6 @@
         }
     }
 
-    
+
 }
 </style>
