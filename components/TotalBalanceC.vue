@@ -3,9 +3,12 @@ import { useTransactionsStore } from '../store/transactionsStore';
 
 const transactionStore = useTransactionsStore();
 const { total } = storeToRefs(transactionStore)
+const currentTotal = ref(transactionStore.totalTransactions())
 
 onMounted(() => {
+    currentTotal.value;
     console.log(`totalStore ->`, total.value);
+    console.log(`currentTotal ->`, currentTotal.value);
 })
 </script>
 
@@ -15,7 +18,7 @@ onMounted(() => {
         <section class="totalBalance-details">
             <div class="totalBalance-elements">
                 <span class="total-title">Total Balance</span>
-                <div class="total-balance">R$ {{ total }}</div>
+                <div :class="total > 0 ? 'total-balance income' : 'total-balance expense' ">R$ {{ total }}</div>
             </div>
 
             <section class="line-chart-component">
@@ -70,6 +73,11 @@ onMounted(() => {
         }
     }
 
-
+    .income{
+        color: green;
+    }
+    .expense{
+        color: crimson;
+    }
 }
 </style>

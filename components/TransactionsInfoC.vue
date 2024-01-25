@@ -2,10 +2,15 @@
     import { useTransactionsStore } from '../store/transactionsStore';
 
     const transactionStore = useTransactionsStore();
-    const {total} = storeToRefs(transactionStore)
+    const {total} = storeToRefs(transactionStore);
+    const { income } = storeToRefs(transactionStore);
+    const { expense } = storeToRefs(transactionStore);
+    const currentTotal = ref(transactionStore.totalTransactions());
     
     onMounted(()=>{
+        currentTotal.value;
         console.log(`totalStore ->`, total.value);
+        console.log(`currentTotal ->`, currentTotal.value);
     })
 </script>
 
@@ -18,11 +23,11 @@
             </div>
             <div class="section-income base-size">
                 <span>Income</span>
-                <div>R$ 0,00</div>
+                <div>R$ {{ income }}</div>
             </div>
             <div class="section-expense base-size">
                 <span>Expense</span>
-                <div>R$ 0,00</div>
+                <div>R$ {{ expense }}</div>
             </div>
             
         </section>

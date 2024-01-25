@@ -10,6 +10,7 @@ const dateStore = useDateStore();
 const transactionsStore = useTransactionsStore();
 const {transactions} = storeToRefs(transactionsStore);
 
+
 const contentFields = ref(/^\s*$/);
 const contentAmount = ref(/^\d+$/);
 const transactionType = ref('income');
@@ -31,7 +32,7 @@ const verificarInput = (input: string)=>{
   }
 }
 
-const addTransaction = ()=>{
+const saveTransaction = ()=>{
 
     if(verificarInput(`${transactionAmount.value}`) === undefined || 
     contentFields.value.test(transactionTitle.value)){
@@ -43,13 +44,15 @@ const addTransaction = ()=>{
     }
     
     
-    transactions.value.unshift({
+    const transaction = {
         id: transactionId.value,
         title: transactionTitle.value,
         amount: transactionAmount.value,
         date: transactionDate.value,
         transactionType: transactionType.value
-    })
+    }
+    
+    transactionsStore.addTransactions(transaction);
     
     transactionTitle.value = '';
     transactionAmount.value = undefined;
@@ -57,18 +60,12 @@ const addTransaction = ()=>{
     transactionType.value = 'income';
     
 };
-onMounted(()=>{
-    
-        console.log(`transactions ->`,transactions.value);
-        
-        
-    
-})
+
 </script>
 
 <template>
     <div class="container-form">
-        <form @submit.prevent="addTransaction" class="form-elements">
+        <form @submit.prevent="saveTransaction" class="form-elements">
             <div class="header-form">
                 <h3>Transactions</h3>
                 <div class="section-transaction-type">
@@ -88,12 +85,12 @@ onMounted(()=>{
             <div class="inputs-elements base-column">
                 <div class="description-section">
                     <label for="description">Description</label>
-                    <input type="text" v-model="transactionTitle"/>
+                    <input type="text" v-model="transactionTitle" placeholder="Add Your Transaction"/>
                 </div>
 
                 <div class="amount-section base-column">
                     <label for="description">Amount</label>
-                    <input min="0" step="0.01" type="number" v-model.number="transactionAmount"/>
+                    <input min="0" step="0.01" type="number" v-model.number="transactionAmount" placeholder="0,00"/>
                 </div>
 
                 <div class="date-section base-column">
