@@ -1,13 +1,44 @@
 <script setup lang="ts">
-import { useTransactionsStore } from '../store/transactionsStore';
 
+import { watch } from 'vue';
+
+import { useTransactionsStore } from '../store/transactionsStore';
+import { useDateStore } from '../store/dateFilterStore';
+import type { Transaction } from '~/types/transaction';
 
 const transactionsStore = useTransactionsStore();
-const {transactions} = storeToRefs(transactionsStore);;
-onMounted(() => {
-    console.log(`list ->`, transactions.value);
+const { filteredList } = storeToRefs(transactionsStore);
+const { transactions } = storeToRefs(transactionsStore);
+const dateStore = ref(useDateStore());
+const currentMonth = ref(dateStore.value.getCurrentMonth());
 
-})
+//let filteredList: Array<Transaction> = reactive([]);
+
+const handleMonthChange = (newMonth: string)=>{
+    return currentMonth.value = newMonth;
+}
+
+const prevMonth = ()=>{
+    let [year, month] = currentMonth.value.split('-');
+    let currentDate = new Date(parseInt(year), parseInt(month)-1,1);
+    currentDate.setMonth(currentDate.getMonth()-1);
+    handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}`);
+}
+const nextMonth = ()=>{
+    let [year, month] = currentMonth.value.split('-');
+    let currentDate = new Date(parseInt(year), parseInt(month)-1,1);
+    currentDate.setMonth(currentDate.getMonth()+1);
+    handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}`);
+}
+
+const formatedDate = (date: Date) => {
+    return new Date().toLocaleDateString('pt-BR', {timeZone: 'UTC'})
+}
+
+watch([transactions, currentMonth], ()=>{
+    filteredList.value = dateStore.value.filterListByMonth(currentMonth.value, transactions.value);
+});
+
 </script>
 
 <template>
@@ -16,15 +47,15 @@ onMounted(() => {
         <div class="container-title-months">
             <h1>All Transactions</h1>
             <section class="container-months">
-                <button class="Prev Month">Prev Month</button>
-                <span>January</span>
-                <button class="Next Month">Next Month</button>
+                <button @click="prevMonth()" class="Prev Month">Prev Month</button>
+                <span>{{ dateStore.formatCurrentMonth(currentMonth) }}</span>
+                <button @click="nextMonth()" class="Next Month">Next Month</button>
             </section>
         </div>
 
 
         <section class="transaction-body">
-            <div class="transaction" v-for="transaction in transactions" :key="transaction.id"> <!-- v-for() -->
+            <div class="transaction" v-for="transaction in filteredList" :key="transaction.id"> <!-- v-for() -->
                 <div class="id-section base-column">
                     Id
                     <span>{{ transaction.id }}</span>
@@ -35,12 +66,12 @@ onMounted(() => {
                 </div>
                 <div class="date-section base-column">
                     Date
-                    <span>{{ transaction.date }}</span>
+                    <span>{{ formatedDate(transaction.date) }}</span>
                 </div>
                 <div class="amount-section base-column-amount">
                     Amount
                     <span :class="transaction.transactionType === 'income' ?
-                            'bind-income' : 'bind-expense'">
+                        'bind-income' : 'bind-expense'">
                         R$ {{ transaction.amount }}
                     </span>
                 </div>
@@ -86,7 +117,7 @@ onMounted(() => {
 
     /* .container-months */
     .container-months {
-        width: 45%;
+        width: 55%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -108,7 +139,7 @@ onMounted(() => {
         /* span */
         span {
             color: chocolate;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
     }

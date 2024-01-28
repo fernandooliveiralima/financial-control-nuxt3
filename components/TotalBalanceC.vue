@@ -7,8 +7,6 @@ const currentTotal = ref(transactionStore.totalTransactions())
 
 onMounted(() => {
     currentTotal.value;
-    console.log(`totalStore ->`, total.value);
-    console.log(`currentTotal ->`, currentTotal.value);
 })
 </script>
 

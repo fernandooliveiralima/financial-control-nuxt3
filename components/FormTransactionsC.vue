@@ -7,9 +7,9 @@ import type { Transaction } from '~/types/transaction';
 
 const dateStore = useDateStore();
 
-const transactionsStore = useTransactionsStore();
-const {transactions} = storeToRefs(transactionsStore);
-
+const transactionsStore = ref(useTransactionsStore());
+const {filteredList} = storeToRefs(transactionsStore.value)
+const {transactions} = storeToRefs(transactionsStore.value);
 
 const contentFields = ref(/^\s*$/);
 const contentAmount = ref(/^\d+$/);
@@ -17,8 +17,6 @@ const transactionType = ref('income');
 const transactionTitle = ref('');
 const transactionDate = ref(new Date());
 const transactionAmount = ref< number | undefined >(undefined);
-
-/* const filteredList: Array<Transaction> = reactive([]); */
 
 /* Functions() */
 let count = ref(0);
@@ -48,15 +46,14 @@ const saveTransaction = ()=>{
         id: transactionId.value,
         title: transactionTitle.value,
         amount: transactionAmount.value,
-        date: transactionDate.value,
+        date: new Date(transactionDate.value),
         transactionType: transactionType.value
     }
     
-    transactionsStore.addTransactions(transaction);
+    transactionsStore.value.addTransactions(transaction);
     
     transactionTitle.value = '';
     transactionAmount.value = undefined;
-    transactionDate.value = new Date();
     transactionType.value = 'income';
     
 };
