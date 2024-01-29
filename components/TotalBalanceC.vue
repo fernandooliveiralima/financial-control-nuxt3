@@ -16,7 +16,11 @@ onMounted(() => {
         <section class="totalBalance-details">
             <div class="totalBalance-elements">
                 <span class="total-title">Total Balance</span>
-                <div :class="total > 0 ? 'total-balance income' : 'total-balance expense' ">R$ {{ total }}</div>
+                <div 
+                :class="total > 0 ? 'total-balance income' : 
+                'total-balance expense' ">
+                {{ transactionStore.formatAmounts(total) }}
+            </div>
             </div>
 
             <section class="line-chart-component">

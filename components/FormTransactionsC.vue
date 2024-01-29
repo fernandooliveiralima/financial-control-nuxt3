@@ -8,7 +8,7 @@ import type { Transaction } from '~/types/transaction';
 const dateStore = useDateStore();
 
 const transactionsStore = ref(useTransactionsStore());
-const {filteredList} = storeToRefs(transactionsStore.value)
+
 const {transactions} = storeToRefs(transactionsStore.value);
 
 const contentFields = ref(/^\s*$/);
@@ -57,6 +57,7 @@ const saveTransaction = ()=>{
     transactionType.value = 'income';
     
 };
+
 
 </script>
 

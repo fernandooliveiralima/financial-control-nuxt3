@@ -6,13 +6,13 @@ import { useTransactionsStore } from '../store/transactionsStore';
 import { useDateStore } from '../store/dateFilterStore';
 import type { Transaction } from '~/types/transaction';
 
+
 const transactionsStore = useTransactionsStore();
-const { filteredList } = storeToRefs(transactionsStore);
+const { filteredList } = storeToRefs(transactionsStore)
 const { transactions } = storeToRefs(transactionsStore);
+
 const dateStore = ref(useDateStore());
 const currentMonth = ref(dateStore.value.getCurrentMonth());
-
-//let filteredList: Array<Transaction> = reactive([]);
 
 const handleMonthChange = (newMonth: string)=>{
     return currentMonth.value = newMonth;
@@ -72,10 +72,10 @@ watch([transactions, currentMonth], ()=>{
                     Amount
                     <span :class="transaction.transactionType === 'income' ?
                         'bind-income' : 'bind-expense'">
-                        R$ {{ transaction.amount }}
+                        {{ transactionsStore.formatAmounts(Number(transaction.amount)) }}
                     </span>
                 </div>
-                <div class="delete-section base-column">
+                <div @click="transactionsStore.removeTransaction(transaction.id)" class="delete-section base-column">
                     Delete
                     <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
                         <path
