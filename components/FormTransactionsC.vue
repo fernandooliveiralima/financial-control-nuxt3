@@ -19,6 +19,10 @@ const transactionDate = ref(new Date());
 const transactionAmount = ref< number | undefined >(undefined);
 
 /* Functions() */
+const formatedDate = (date: Date)=>{
+    new Date().toLocaleDateString('pt-BR', {timeZone: 'UTC'})
+}
+
 let count = ref(0);
 const transactionId = computed(()=>{
     return count.value++;
@@ -46,7 +50,7 @@ const saveTransaction = ()=>{
         id: transactionId.value,
         title: transactionTitle.value,
         amount: transactionAmount.value,
-        date: new Date(transactionDate.value),
+        date: new Date( transactionDate.value ),
         transactionType: transactionType.value
     }
     
@@ -58,7 +62,10 @@ const saveTransaction = ()=>{
     
 };
 
-
+onMounted(()=>{
+    console.log(`transactions ->`,transactions.value);
+    
+})
 </script>
 
 <template>

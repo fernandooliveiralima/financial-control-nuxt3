@@ -13,7 +13,6 @@ export const useTransactionsStore = defineStore('transactionsStore', () => {
     const addTransactions = (transaction: Transaction) => {
         transactions.unshift(transaction);
         totalTransactions();
-
     }
 
     const totalTransactions = (): number => {

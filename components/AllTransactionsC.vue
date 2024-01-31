@@ -4,8 +4,6 @@ import { watch } from 'vue';
 
 import { useTransactionsStore } from '../store/transactionsStore';
 import { useDateStore } from '../store/dateFilterStore';
-import type { Transaction } from '~/types/transaction';
-
 
 const transactionsStore = useTransactionsStore();
 const { filteredList } = storeToRefs(transactionsStore)
@@ -29,10 +27,6 @@ const nextMonth = ()=>{
     let currentDate = new Date(parseInt(year), parseInt(month)-1,1);
     currentDate.setMonth(currentDate.getMonth()+1);
     handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}`);
-}
-
-const formatedDate = (date: Date) => {
-    return new Date().toLocaleDateString('pt-BR', {timeZone: 'UTC'})
 }
 
 watch([transactions, currentMonth], ()=>{
@@ -66,7 +60,7 @@ watch([transactions, currentMonth], ()=>{
                 </div>
                 <div class="date-section base-column">
                     Date
-                    <span>{{ formatedDate(transaction.date) }}</span>
+                    <span>{{ dateStore.formatDate(transaction.date) }}</span>
                 </div>
                 <div class="amount-section base-column-amount">
                     Amount
