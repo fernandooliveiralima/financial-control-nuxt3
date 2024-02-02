@@ -30,7 +30,9 @@ const nextMonth = ()=>{
 }
 
 watch([transactions, currentMonth], ()=>{
-    filteredList.value = dateStore.value.filterListByMonth(currentMonth.value, transactions.value);
+    if(transactions.value.length > 0){
+        filteredList.value = dateStore.value.filterListByMonth(currentMonth.value, transactions.value);
+    }
 });
 
 </script>

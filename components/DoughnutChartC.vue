@@ -4,12 +4,38 @@ import { Chart } from 'chart.js/auto';
 import { useTransactionsStore } from '../store/transactionsStore';
 
 const transactionStore = useTransactionsStore();
-const { transactions, expense, income, total } = storeToRefs(transactionStore);
+const {filteredList, transactions, expense, income, total } = storeToRefs(transactionStore);
 
 const myChart = ref(null);
 let doughnutChart: Chart<"doughnut", number[], string> | null = null;
+const basePercentualValue = ref(100);
 
+/* methods */
 
+//const allTransactions = reactive([...transactions.value]);
+const calculatePercentualValue = computed(()=>{
+    const calculatePercentual = ( Number( income.value) - Math.abs(Number(expense.value) ) ) / Number(income.value) * basePercentualValue.value;
+    
+    if(calculatePercentual === -Infinity){
+        console.log(`-> CALCULATE PERCENTUAL INFINITA`);
+        return 0;
+
+    }else if(calculatePercentual < 0){
+        console.log(`-> CALCULATE PERCENTUAL MENOR QUE 0`);
+        return calculatePercentual;
+
+    }else if(calculatePercentual > 0){
+        console.log(`-> CALCULATE PERCENTUAL MAIOR QUE 0`);
+        return calculatePercentual
+
+    }else if(isNaN(calculatePercentual)){
+        console.log(`is Nan`);
+        return 0;
+    }
+
+    return calculatePercentual;
+})
+//return ( Number( income.value) - Math.abs(Number(expense.value) ) ) / Number(income.value) * basePercentualValue.value;
 
 const createChart = () => {
     if (myChart.value && !doughnutChart) {
@@ -36,7 +62,12 @@ const createChart = () => {
     }
 }
 
-watch([total, income, expense], () => {
+
+const colorGraph = computed(()=>{
+    
+})
+
+watch([transactions, total, income, expense], () => {
     transactions.value.forEach((transaction) => {
         if (doughnutChart && transaction.transactionType === 'income' && Number(transaction.amount) > 0) {
             doughnutChart.data.datasets[0].data[0] = Number(income.value);
@@ -47,10 +78,27 @@ watch([total, income, expense], () => {
         }
     })
     
+    
+    console.log(`total ->`,total.value);
+    console.log(`income ->`,income.value);
+    console.log(`expense ->`,expense.value);
+    console.log(`colorGraph ->`, colorGraph.value);
+    console.log(`transactions ->`,transactions.value);
+    console.log(`filteredList ->`,filteredList.value.length);
+    console.log(`transactionsLength ->`,transactions.value.length);
+    console.log(`calculatePercentualValue ->`,calculatePercentualValue.value);
 })
 
 onMounted(() => {
     createChart();
+    console.log(`total ->`,total.value);
+    console.log(`income ->`,income.value);
+    console.log(`expense ->`,expense.value);
+    console.log(`colorGraph ->`, colorGraph.value);
+    console.log(`transactions ->`,transactions.value);
+    console.log(`filteredList ->`,filteredList.value.length);
+    console.log(`transactionsLength ->`,transactions.value.length);
+    console.log(`calculatePercentualValue ->`,calculatePercentualValue.value);
 })
 </script>
 
@@ -60,7 +108,7 @@ onMounted(() => {
         <section class="doughnut-chart">
             <div class="chart">
                 <canvas ref="myChart"></canvas>
-                <span class=" percentual-value ">100%</span>
+                <span class="percentual-value">{{ Math.abs( parseInt(`${calculatePercentualValue}`) ) }}%</span>
             </div>
         </section>
 
@@ -88,6 +136,7 @@ onMounted(() => {
 
         /* .percentual-value */
         .percentual-value {
+            color: cornflowerblue;
             font-size: 2.5rem;
             position: absolute;
             top: 45%;

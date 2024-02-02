@@ -9,63 +9,73 @@ const dateStore = useDateStore();
 
 const transactionsStore = ref(useTransactionsStore());
 
-const {transactions} = storeToRefs(transactionsStore.value);
+const { filteredList, transactions, total } = storeToRefs(transactionsStore.value);
 
 const contentFields = ref(/^\s*$/);
 const contentAmount = ref(/^\d+$/);
 const transactionType = ref('income');
 const transactionTitle = ref('');
 const transactionDate = ref(new Date());
-const transactionAmount = ref< number | undefined >(undefined);
+const transactionAmount = ref<number | undefined>(undefined);
 
 /* Functions() */
-const formatedDate = (date: Date)=>{
-    new Date().toLocaleDateString('pt-BR', {timeZone: 'UTC'})
+const formatedDate = (date: Date) => {
+    new Date().toLocaleDateString('pt-BR', { timeZone: 'UTC' })
 }
 
 let count = ref(0);
-const transactionId = computed(()=>{
+const transactionId = computed(() => {
     return count.value++;
 })
 
-const verificarInput = (input: string)=>{
+const verificarInput = (input: string) => {
     if (contentAmount.value.test(input)) {
-    return parseFloat(input); 
-  }
+        return parseFloat(input);
+    }
 }
 
-const saveTransaction = ()=>{
+const saveTransaction = () => {
 
-    if(verificarInput(`${transactionAmount.value}`) === undefined || 
-    contentFields.value.test(transactionTitle.value)){
+    if (verificarInput(`${transactionAmount.value}`) === undefined ||
+        contentFields.value.test(transactionTitle.value)) {
         alert('Preencha todos os campos!');
         return;
-        
-    }else if(transactionType.value === 'expense' && transactionAmount.value){
-        parseFloat(`${transactionAmount.value*= -1}`)
+
+    } else if (transactionType.value === 'expense' && transactionAmount.value) {
+        parseFloat(`${transactionAmount.value *= -1}`)
     }
-    
-    
+
+
     const transaction = {
         id: transactionId.value,
         title: transactionTitle.value,
         amount: transactionAmount.value,
-        date: new Date( transactionDate.value ),
+        date: new Date(transactionDate.value),
         transactionType: transactionType.value
     }
-    
+
     transactionsStore.value.addTransactions(transaction);
-    
+
     transactionTitle.value = '';
     transactionAmount.value = undefined;
     transactionType.value = 'income';
-    
+
 };
 
 onMounted(()=>{
-    console.log(`transactions ->`,transactions.value);
-    
+    if (transactions.value.length > 0) {
+        console.log(`filteredList ->`, filteredList.value);
+        console.log(`transactions ->`, transactions.value);
+    }
 })
+
+watch(total, ()=>{
+    if (filteredList.value.length === 0) {
+        console.log(`filteredList ->`, filteredList.value);
+        console.log(`transactions ->`, transactions.value);
+    }
+})
+
 </script>
 
 <template>
@@ -76,12 +86,12 @@ onMounted(()=>{
                 <div class="section-transaction-type">
                     <section class="income-section">
                         <label for="income">Income</label>
-                        <input type="radio" name="income" id="" value="income" v-model="transactionType"/>
+                        <input type="radio" name="income" id="" value="income" v-model="transactionType" />
                     </section>
 
                     <section class="expense-section">
                         <label for="expense">Expense</label>
-                        <input type="radio" name="expense" id="" value="expense" v-model="transactionType"/>
+                        <input type="radio" name="expense" id="" value="expense" v-model="transactionType" />
                     </section>
                 </div>
             </div>
@@ -90,24 +100,24 @@ onMounted(()=>{
             <div class="inputs-elements base-column">
                 <div class="description-section">
                     <label for="description">Description</label>
-                    <input type="text" v-model="transactionTitle" placeholder="Add Your Transaction"/>
+                    <input type="text" v-model="transactionTitle" placeholder="Add Your Transaction" />
                 </div>
 
                 <div class="amount-section base-column">
                     <label for="description">Amount</label>
-                    <input min="0" step="0.01" type="number" v-model.number="transactionAmount" placeholder="0,00"/>
+                    <input min="0" step="0.01" type="number" v-model.number="transactionAmount" placeholder="0,00" />
                 </div>
 
                 <div class="date-section base-column">
                     <label for="description">Date</label>
-                    <input type="date" v-model="transactionDate"/>
+                    <input type="date" v-model="transactionDate" />
                 </div>
             </div>
             <div class="btn">
                 <button @click="" type="submit">Add Transaction</button>
             </div>
         </form>
-        
+
     </div>
 </template>
 
@@ -129,7 +139,7 @@ onMounted(()=>{
         height: 10rem;
 
         /* .header-form */
-        .header-form{
+        .header-form {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -142,19 +152,20 @@ onMounted(()=>{
             }
 
             /* .section-transaction-type */
-            .section-transaction-type{
+            .section-transaction-type {
                 display: flex;
 
                 /* .income-section, .expense-section */
-                .income-section, .expense-section{
-                    
+                .income-section,
+                .expense-section {
+
                     margin-right: 1rem;
                     font-family: Verdana, Geneva, Tahoma, sans-serif;
                     font-size: 1.1rem;
                 }
 
                 /* .income-section */
-                .income-section{
+                .income-section {
                     color: green;
                     display: flex;
                     align-items: center;
@@ -162,13 +173,13 @@ onMounted(()=>{
                     width: 5.5rem;
 
                     /* input */
-                    input{
+                    input {
                         accent-color: green;
                     }
                 }
 
                 /* .income-section */
-                .expense-section{
+                .expense-section {
                     color: crimson;
                     display: flex;
                     align-items: center;
@@ -176,7 +187,7 @@ onMounted(()=>{
                     width: 6rem;
 
                     /* input */
-                    input{
+                    input {
                         accent-color: crimson;
                     }
                 }
