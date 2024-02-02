@@ -45,12 +45,12 @@ const createChart = () => {
         doughnutChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Income', 'Expense'],
+                labels: ['', 'Income', 'Expense'],
                 datasets: [{
-                    data: [Number(income.value), Number(expense.value)],
+                    data: [1, Number(income.value), Number(expense.value)],
                     borderWidth: 0,
                     hoverOffset: 5,
-                    backgroundColor: ['green', 'crimson'],
+                    backgroundColor: ['cornflowerblue', 'green', 'crimson'],
                 }]
             },
             options: {
@@ -62,27 +62,27 @@ const createChart = () => {
     }
 }
 
-
-const colorGraph = computed(()=>{
-    
-})
-
-watch([transactions, total, income, expense], () => {
+const updatePercentualChart = ()=>{
     transactions.value.forEach((transaction) => {
         if (doughnutChart && transaction.transactionType === 'income' && Number(transaction.amount) > 0) {
-            doughnutChart.data.datasets[0].data[0] = Number(income.value);
+            doughnutChart.data.datasets[0].data[0] = 0
+            doughnutChart.data.datasets[0].data[1] = Number(income.value);
             doughnutChart.update();
         } else if (doughnutChart && transaction.transactionType === 'expense' && Number(transaction.amount) < 0) {
-            doughnutChart.data.datasets[0].data[1] = Number(expense.value);
+            doughnutChart.data.datasets[0].data[0] = 1
+            doughnutChart.data.datasets[0].data[2] = Number(expense.value);
             doughnutChart.update();
         }
     })
+}
+
+watch([transactions, total, income, expense], () => {
     
+    updatePercentualChart();
     
     console.log(`total ->`,total.value);
     console.log(`income ->`,income.value);
     console.log(`expense ->`,expense.value);
-    console.log(`colorGraph ->`, colorGraph.value);
     console.log(`transactions ->`,transactions.value);
     console.log(`filteredList ->`,filteredList.value.length);
     console.log(`transactionsLength ->`,transactions.value.length);
@@ -94,7 +94,6 @@ onMounted(() => {
     console.log(`total ->`,total.value);
     console.log(`income ->`,income.value);
     console.log(`expense ->`,expense.value);
-    console.log(`colorGraph ->`, colorGraph.value);
     console.log(`transactions ->`,transactions.value);
     console.log(`filteredList ->`,filteredList.value.length);
     console.log(`transactionsLength ->`,transactions.value.length);
@@ -109,6 +108,7 @@ onMounted(() => {
             <div class="chart">
                 <canvas ref="myChart"></canvas>
                 <span class="percentual-value">{{ Math.abs( parseInt(`${calculatePercentualValue}`) ) }}%</span>
+                
             </div>
         </section>
 
