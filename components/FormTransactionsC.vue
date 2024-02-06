@@ -6,10 +6,9 @@ import { useTransactionsStore } from '../store/transactionsStore';
 import type { Transaction } from '~/types/transaction';
 
 const dateStore = useDateStore();
+const transactionsStore = useTransactionsStore();
 
-const transactionsStore = ref(useTransactionsStore());
-
-const { filteredList, transactions, total } = storeToRefs(transactionsStore.value);
+const { filteredList, transactions, total } = storeToRefs(transactionsStore);
 
 const contentFields = ref(/^\s*$/);
 const contentAmount = ref(/^\d+$/);
@@ -17,16 +16,13 @@ const transactionType = ref('income');
 const transactionTitle = ref('');
 const transactionDate = ref(new Date());
 const transactionAmount = ref<number | undefined>(undefined);
+let count = ref(0);
 
 /* Functions() */
 const formatedDate = (date: Date) => {
     new Date().toLocaleDateString('pt-BR', { timeZone: 'UTC' })
 }
 
-let count = ref(0);
-const transactionId = computed(() => {
-    return count.value++;
-})
 
 const verificarInput = (input: string) => {
     if (contentAmount.value.test(input)) {
@@ -47,35 +43,24 @@ const saveTransaction = () => {
 
 
     const transaction = {
-        id: transactionId.value,
+        id: count.value++,
         title: transactionTitle.value,
         amount: transactionAmount.value,
         date: new Date(transactionDate.value),
         transactionType: transactionType.value
     }
 
-    transactionsStore.value.addTransactions(transaction);
+    transactionsStore.addTransactions(transaction);
 
     transactionTitle.value = '';
     transactionAmount.value = undefined;
     transactionType.value = 'income';
 
+    console.log(`count ->`, count.value);
+    
 };
 
-onMounted(()=>{
-    if (transactions.value.length > 0) {
-        console.log(`filteredList ->`, filteredList.value);
-        console.log(`transactions ->`, transactions.value);
-    }
-})
-
-watch(total, ()=>{
-    if (filteredList.value.length === 0) {
-        console.log(`filteredList ->`, filteredList.value);
-        console.log(`transactions ->`, transactions.value);
-    }
-})
-
+  
 </script>
 
 <template>

@@ -1,14 +1,18 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 import type { Transaction } from '~/types/transaction';
+import { useDateStore } from '../store/dateFilterStore';
 
 export const useTransactionsStore = defineStore('transactionsStore', () => {
 
     const total = ref(0);
 
+    let transactionType = ref('income');
     let filteredList: Ref<Array<Transaction>> = ref([]);
     let transactions: Array<Transaction> = reactive([]);
+    const dateStore = useDateStore();
+    const currentMonth = ref(dateStore.getCurrentMonth())
 
     const addTransactions = (transaction: Transaction) => {
         transactions.unshift(transaction);
@@ -48,13 +52,17 @@ export const useTransactionsStore = defineStore('transactionsStore', () => {
         totalTransactions();
     }
 
-    const formatAmounts = (amount: number)=>{
+    const formatAmounts = (amount: number) => {
         return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(amount)
     }
 
+    watch([transactions, currentMonth], () => {
+        filteredList.value = dateStore.filterListByMonth(currentMonth.value, transactions);
+    })
 
     return {
         total,
+        transactionType,
         transactions,
         income,
         expense,

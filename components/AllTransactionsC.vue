@@ -12,28 +12,26 @@ const { transactions } = storeToRefs(transactionsStore);
 const dateStore = ref(useDateStore());
 const currentMonth = ref(dateStore.value.getCurrentMonth());
 
-const handleMonthChange = (newMonth: string)=>{
+const handleMonthChange = (newMonth: string) => {
     return currentMonth.value = newMonth;
 }
 
-const prevMonth = ()=>{
+const prevMonth = () => {
     let [year, month] = currentMonth.value.split('-');
-    let currentDate = new Date(parseInt(year), parseInt(month)-1,1);
-    currentDate.setMonth(currentDate.getMonth()-1);
-    handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}`);
+    let currentDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+    currentDate.setMonth(currentDate.getMonth() - 1);
+    handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
 }
-const nextMonth = ()=>{
+const nextMonth = () => {
     let [year, month] = currentMonth.value.split('-');
-    let currentDate = new Date(parseInt(year), parseInt(month)-1,1);
-    currentDate.setMonth(currentDate.getMonth()+1);
-    handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth()+1}`);
+    let currentDate = new Date(parseInt(year), parseInt(month) - 1, 1);
+    currentDate.setMonth(currentDate.getMonth() + 1);
+    handleMonthChange(`${currentDate.getFullYear()}-${currentDate.getMonth() + 1}`);
 }
 
-watch([transactions, currentMonth], ()=>{
-    if(transactions.value.length > 0){
-        filteredList.value = dateStore.value.filterListByMonth(currentMonth.value, transactions.value);
-    }
-});
+watch([transactions, currentMonth], () => {
+    filteredList.value = dateStore.value.filterListByMonth(currentMonth.value, transactions.value);
+})
 
 </script>
 
@@ -146,6 +144,8 @@ watch([transactions, currentMonth], ()=>{
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        height: 50rem;
+        overflow: scroll;
 
         /* .transaction */
         .transaction {

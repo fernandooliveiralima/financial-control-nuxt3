@@ -5,31 +5,41 @@ import { useTransactionsStore } from '../store/transactionsStore';
 import { useDateStore } from '../store/dateFilterStore';
 
 const transactionStore = useTransactionsStore();
-const { transactions } = storeToRefs(transactionStore);
+const { filteredList, transactions, total } = storeToRefs(transactionStore);
 const dateStore = useDateStore();
 
 const myChart = ref(null);
 let lineChart: Chart<"line", number[], string> | null = null;
 
-const createChart = () => {
+const createLineChart = () => {
     if (myChart.value && !lineChart) {
 
-        /* let allTransactions = [...transactions.value];
-        allTransactions
-            .sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date)))
+        let allTransactions = reactive([...transactions.value]);
+        allTransactions.sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date)));
 
         let totalTransactions = ref(0);
-        let datesTransactions: Array<string> = reactive([]);
+        let datesTransactions: Array<any> = reactive([]);
         let amountsTransactions: Array<number> = reactive([]);
 
         allTransactions.forEach((transaction) => {
             const formatDate = ref(dateStore.formatDate(transaction.date))
-            datesTransactions.push(`${formatDate}`)
-            totalTransactions.value += Number(transaction.amount);
-            amountsTransactions.push(Number(totalTransactions));
-        })
+            datesTransactions.push(formatDate)
 
-        const colorGraph = computed(()=> totalTransactions.value > 0 ? '#008000' : '#dc143c'); */
+            totalTransactions.value += Number(transaction.amount);
+            amountsTransactions.push(Number(totalTransactions.value));
+
+            if (lineChart && Number(transaction.amount) > 0 && transaction.transactionType === 'income') {
+                lineChart.data.datasets[0].data = amountsTransactions;
+                lineChart.update();
+
+            } else if (lineChart && Number(transaction.amount) < 0 && transaction.transactionType === 'expense') {
+                lineChart.data.datasets[0].data = amountsTransactions;
+                lineChart.update();
+            }
+            
+
+        })
+        const colorGraph = computed(() => totalTransactions.value > 0 ? 'green' : 'crimson');
 
         const ctx = myChart.value;
 
@@ -39,11 +49,11 @@ const createChart = () => {
                 labels: ['January', 'February', 'March', 'April', 'May', 'Juny', 'July', 'August', 'September', 'Octuber', 'November', 'December',],
                 datasets: [{
                     label: 'Behavior Transactions',
-                    data: [1,2,3,4,5,6,7,8,9,10,11,12],
-                    fill: true,
+                    data: amountsTransactions,
+                    fill: false,
                     backgroundColor: '#181423',
                     tension: 0.1,
-                    borderColor: `crimson`
+                    borderColor: colorGraph.value
                 }]
             },
             options: {
@@ -65,12 +75,14 @@ const createChart = () => {
                 }
             }
         })
-        
+
+    
     }
+    
 }
 
 onMounted(() => {
-    createChart();
+    createLineChart();
 })
 </script>
 

@@ -4,7 +4,7 @@ import { Chart } from 'chart.js/auto';
 import { useTransactionsStore } from '../store/transactionsStore';
 
 const transactionStore = useTransactionsStore();
-const {filteredList, transactions, expense, income, total } = storeToRefs(transactionStore);
+const { transactions, expense, income, total } = storeToRefs(transactionStore);
 
 const myChart = ref(null);
 let doughnutChart: Chart<"doughnut", number[], string> | null = null;
@@ -12,30 +12,16 @@ const basePercentualValue = ref(100);
 
 /* methods */
 
-//const allTransactions = reactive([...transactions.value]);
 const calculatePercentualValue = computed(()=>{
     const calculatePercentual = ( Number( income.value) - Math.abs(Number(expense.value) ) ) / Number(income.value) * basePercentualValue.value;
     
-    if(calculatePercentual === -Infinity){
-        console.log(`-> CALCULATE PERCENTUAL INFINITA`);
-        return 0;
-
-    }else if(calculatePercentual < 0){
-        console.log(`-> CALCULATE PERCENTUAL MENOR QUE 0`);
-        return calculatePercentual;
-
-    }else if(calculatePercentual > 0){
-        console.log(`-> CALCULATE PERCENTUAL MAIOR QUE 0`);
-        return calculatePercentual
-
-    }else if(isNaN(calculatePercentual)){
-        console.log(`is Nan`);
-        return 0;
-    }
+    if(calculatePercentual === -Infinity){return 0;}
+    else if(calculatePercentual < 0){return calculatePercentual}
+    else if(calculatePercentual > 0){return calculatePercentual}
+    else if(isNaN(calculatePercentual)){return 0;}
 
     return calculatePercentual;
 })
-//return ( Number( income.value) - Math.abs(Number(expense.value) ) ) / Number(income.value) * basePercentualValue.value;
 
 const createChart = () => {
     if (myChart.value && !doughnutChart) {
@@ -45,12 +31,12 @@ const createChart = () => {
         doughnutChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['', 'Income', 'Expense'],
+                labels: [ 'Income', 'Expense'],
                 datasets: [{
-                    data: [1, Number(income.value), Number(expense.value)],
+                    data: [ Number(income.value), Number(expense.value)],
                     borderWidth: 0,
                     hoverOffset: 5,
-                    backgroundColor: ['cornflowerblue', 'green', 'crimson'],
+                    backgroundColor: [ 'green', 'crimson'],
                 }]
             },
             options: {
@@ -63,42 +49,31 @@ const createChart = () => {
 }
 
 const updatePercentualChart = ()=>{
-    transactions.value.forEach((transaction) => {
+    let allTransactions = [...transactions.value];
+
+    allTransactions.forEach((transaction) => {
         if (doughnutChart && transaction.transactionType === 'income' && Number(transaction.amount) > 0) {
-            doughnutChart.data.datasets[0].data[0] = 0
-            doughnutChart.data.datasets[0].data[1] = Number(income.value);
+            doughnutChart.data.datasets[0].data[0] = Number(income.value);
             doughnutChart.update();
+
         } else if (doughnutChart && transaction.transactionType === 'expense' && Number(transaction.amount) < 0) {
-            doughnutChart.data.datasets[0].data[0] = 1
-            doughnutChart.data.datasets[0].data[2] = Number(expense.value);
+            doughnutChart.data.datasets[0].data[1] =  Number(expense.value);
             doughnutChart.update();
         }
     })
 }
 
 watch([transactions, total, income, expense], () => {
-    
     updatePercentualChart();
+    console.log(transactions.value);
     
-    console.log(`total ->`,total.value);
-    console.log(`income ->`,income.value);
-    console.log(`expense ->`,expense.value);
-    console.log(`transactions ->`,transactions.value);
-    console.log(`filteredList ->`,filteredList.value.length);
-    console.log(`transactionsLength ->`,transactions.value.length);
-    console.log(`calculatePercentualValue ->`,calculatePercentualValue.value);
 })
 
 onMounted(() => {
     createChart();
-    console.log(`total ->`,total.value);
-    console.log(`income ->`,income.value);
-    console.log(`expense ->`,expense.value);
-    console.log(`transactions ->`,transactions.value);
-    console.log(`filteredList ->`,filteredList.value.length);
-    console.log(`transactionsLength ->`,transactions.value.length);
-    console.log(`calculatePercentualValue ->`,calculatePercentualValue.value);
+    console.log(transactions.value);
 })
+
 </script>
 
 <template>
@@ -146,11 +121,4 @@ onMounted(() => {
     }
 }
 
-.income {
-    color: green;
-}
-
-.expense {
-    color: crimson;
-}
 </style>
