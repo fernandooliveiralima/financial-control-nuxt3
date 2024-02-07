@@ -65,13 +65,14 @@ const updatePercentualChart = ()=>{
 
 watch([transactions, total, income, expense], () => {
     updatePercentualChart();
-    console.log(transactions.value);
+    console.log(`doughnutChart Value ->`, doughnutChart?.data.datasets[0].data);
+    
     
 })
 
 onMounted(() => {
     createChart();
-    console.log(transactions.value);
+    console.log(`doughnutChart Value ->`, doughnutChart?.data.datasets[0].data);
 })
 
 </script>

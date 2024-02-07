@@ -14,6 +14,8 @@ export const useTransactionsStore = defineStore('transactionsStore', () => {
     const dateStore = useDateStore();
     const currentMonth = ref(dateStore.getCurrentMonth())
 
+    
+
     const addTransactions = (transaction: Transaction) => {
         transactions.unshift(transaction);
         totalTransactions();
@@ -46,11 +48,21 @@ export const useTransactionsStore = defineStore('transactionsStore', () => {
             .reduce((acc, expenseTransaction) => Number(acc) + Number(expenseTransaction), 0)
     })
 
-    const removeTransaction = (id: number) => {
+    /* const removeTransaction = (id: number) => {
         transactions = transactions.filter((item) => item.id !== id);
         filteredList.value = filteredList.value.filter((item) => item.id !== id);
         totalTransactions();
+    } */
+
+    const removeTransaction = (id: number) => {
+        const index = transactions.findIndex((item) => item.id === id);
+        if (index !== -1) {
+            transactions.splice(index, 1);
+            filteredList.value = filteredList.value.filter((item) => item.id !== id);
+            totalTransactions();
+        }
     }
+    
 
     const formatAmounts = (amount: number) => {
         return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(amount)
