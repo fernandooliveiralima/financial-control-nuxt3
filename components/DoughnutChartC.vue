@@ -57,22 +57,20 @@ const updatePercentualChart = ()=>{
             doughnutChart.update();
 
         } else if (doughnutChart && transaction.transactionType === 'expense' && Number(transaction.amount) < 0) {
-            doughnutChart.data.datasets[0].data[1] =  Number(expense.value);
+            doughnutChart.data.datasets[0].data[1] = Number(expense.value); 
             doughnutChart.update();
         }
     })
 }
 
+const absPercentualValue = computed(()=> Math.abs(calculatePercentualValue.value) )
+
 watch([transactions, total, income, expense], () => {
     updatePercentualChart();
-    console.log(`doughnutChart Value ->`, doughnutChart?.data.datasets[0].data);
-    
-    
 })
 
 onMounted(() => {
     createChart();
-    console.log(`doughnutChart Value ->`, doughnutChart?.data.datasets[0].data);
 })
 
 </script>
@@ -83,7 +81,10 @@ onMounted(() => {
         <section class="doughnut-chart">
             <div class="chart">
                 <canvas ref="myChart"></canvas>
-                <span class="percentual-value">{{ Math.abs( parseInt(`${calculatePercentualValue}`) ) }}%</span>
+                <span 
+                :class=" total > 0 ? 'percentual-value income' 
+                : 
+                'percentual-value expense' ">{{ parseInt(`${absPercentualValue}`) }}%</span>
                 
             </div>
         </section>
@@ -112,12 +113,19 @@ onMounted(() => {
 
         /* .percentual-value */
         .percentual-value {
-            color: cornflowerblue;
+            
             font-size: 2.5rem;
             position: absolute;
             top: 45%;
             font-family: 'Alice', serif;
             font-weight: 600;
+        }
+
+        .income{
+            color: green;
+        }
+        .expense{
+            color: crimson;
         }
     }
 }

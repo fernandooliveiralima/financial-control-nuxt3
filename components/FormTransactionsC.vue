@@ -56,7 +56,7 @@ const saveTransaction = () => {
     transactionAmount.value = undefined;
     transactionType.value = 'income';
 
-    console.log(`count ->`, count.value);
+    
     
 };
 

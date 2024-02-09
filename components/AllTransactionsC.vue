@@ -50,10 +50,10 @@ watch([transactions, currentMonth], () => {
 
         <section class="transaction-body">
             <div class="transaction" v-for="transaction in filteredList" :key="transaction.id"> <!-- v-for() -->
-                <div class="id-section base-column">
+                <!-- <div class="id-section base-column">
                     Id
                     <span>{{ transaction.id }}</span>
-                </div>
+                </div> -->
                 <div class="description-section base-column">
                     Description
                     <span>{{ transaction.title }}</span>

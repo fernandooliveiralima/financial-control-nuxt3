@@ -5,11 +5,12 @@ import { useTransactionsStore } from '../store/transactionsStore';
 import { useDateStore } from '../store/dateFilterStore';
 
 const transactionStore = useTransactionsStore();
-const { transactions } = storeToRefs(transactionStore);
+const {filteredList, transactions, total, income, expense } = storeToRefs(transactionStore);
 const dateStore = useDateStore();
 
 const myChart = ref(null);
 let lineChart: Chart<"line", number[], string> | null = null;
+
 
 const createLineChart = () => {
     if (myChart.value) {
@@ -17,21 +18,25 @@ const createLineChart = () => {
         allTransactions.sort((a, b) => Number(new Date(a.date)) - Number(new Date(b.date)));
 
         let totalAmount = ref(0);
-        let datesTransactions = reactive< Array<string> >([]);
-        let amountsTransactions = reactive< Array<number> >([]);
-        
+        let datesTransactions = reactive<Array<string>>([]);
+        let amountsTransactions = reactive<Array<number>>([]);
+        let transactionTypes = ref('');
+
         allTransactions.forEach(transaction => {
             datesTransactions.push(dateStore.formatDate(transaction.date));
             totalAmount.value += Number(transaction.amount);
             amountsTransactions.push(totalAmount.value);
+            transactionTypes.value = transaction.transactionType
         });
-        let borderColorGraph = computed(()=> totalAmount.value > 0 ? 'green' : 'crimson');
+        
+        let borderColorGraph = computed(() => total.value > 0 ? 'green' : 'crimson');
 
         const ctx = myChart.value;
 
         if (lineChart) {
             lineChart.data.labels = datesTransactions;
             lineChart.data.datasets[0].data = amountsTransactions;
+            lineChart.data.datasets[0].borderColor = borderColorGraph.value
             lineChart.update();
         } else {
             lineChart = new Chart(ctx, {
@@ -59,24 +64,25 @@ const createLineChart = () => {
                 }
             });
         }
-        console.log(`totalAmount ->`,totalAmount.value);
-        
+
+
     }
-    
+
 }
 
-watch(transactions, ()=>{
-    createLineChart();
-    console.log(`lineChart Value ->`, lineChart?.data.datasets[0].data);
+
+
+watch(total, () => {
+    createLineChart()
+    console.log(`income ->`, income.value);
+    console.log(`expense ->`, expense.value);
     
     
 })
 
 onMounted(() => {
     createLineChart();
-    console.log(`lineChart Value ->`, lineChart?.data.datasets[0].data);
 })
-
 
 
 </script>
