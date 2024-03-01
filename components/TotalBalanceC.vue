@@ -31,55 +31,41 @@ onMounted(() => {
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 /* .container-totalBalance */
-.container-totalBalance {
-    margin-bottom: -20rem;
-    margin-right: 1rem;
-    width: 40%;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer components {
+    /* .container-totalBalance */
+.container-totalBalance {
+  @apply mb-[-20rem] w-2/5 mr-4;
 }
 
 /* .totalBalance-details */
 .totalBalance-details {
-    background-color: #181423;
-    border-radius: 0.5rem;
-    color: white;
-    height: 30rem;
-    width: 100%;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    /* .totalBalance-elements */
-    .totalBalance-elements {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        height: 30%;
-        width: 100%;
-
-        /* .total-title */
-        .total-title {
-            font-size: 3rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            color: cadetblue;
-        }
-
-        /* .total-balance */
-        .total-balance {
-            font-family: 'Alice', serif;
-            font-size: 3rem;
-        }
-    }
-
-    .income{
-        color: green;
-    }
-    .expense{
-        color: crimson;
-    }
+  @apply bg-[#181423] text-[white] h-[30rem] w-full flex flex-col items-center p-4 rounded-lg;
+}
+/* .totalBalance-elements */
+.totalBalance-details .totalBalance-elements {
+  @apply flex flex-col items-center justify-between h-[30%] w-full;
+}
+/* .total-title */
+.totalBalance-details .totalBalance-elements .total-title {
+  @apply text-5xl text-[cadetblue] font-sans;
+  
+}
+/* .total-balance */
+.totalBalance-details .totalBalance-elements .total-balance {
+  @apply text-5xl font-sans;
+  
+}
+.totalBalance-details .income {
+  @apply text-[green];
+}
+.totalBalance-details .expense {
+  @apply text-[crimson];
+}
 }
 </style>

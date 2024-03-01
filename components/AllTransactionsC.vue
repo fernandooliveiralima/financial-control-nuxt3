@@ -6,8 +6,8 @@ import { useTransactionsStore } from '../store/transactionsStore';
 import { useDateStore } from '../store/dateFilterStore';
 
 const transactionsStore = useTransactionsStore();
-const { filteredList } = storeToRefs(transactionsStore)
-const { transactions } = storeToRefs(transactionsStore);
+const { filteredList, transactions } = storeToRefs(transactionsStore)
+
 
 const dateStore = ref(useDateStore());
 const currentMonth = ref(dateStore.value.getCurrentMonth());
@@ -82,158 +82,96 @@ watch([transactions, currentMonth], () => {
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 /* .container-all-transactions */
-.container-all-transactions {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
 
 
-    /* .container-title-months */
+
     .container-title-months {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 60%;
-        margin-left: 37%;
-
-        /* .container-months */
-
+        @apply flex items-center justify-between w-[60%] ml-[37%];
     }
 
-    /* h1 */
-    h1 {
-        color: cadetblue;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 2.5rem;
-        text-align: center;
-        margin-top: 1rem;
-        letter-spacing: 0.3rem;
+    .container-title-months h1 {
+        @apply text-[cadetblue] font-sans text-4xl text-center mt-4 tracking-[0.3rem];
     }
 
-    /* .container-months */
     .container-months {
-        width: 55%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        /* button */
-        button {
-            background-color: olive;
-            border: none;
-            border-radius: 0.3rem;
-            cursor: pointer;
-            color: black;
-            padding: 0.3rem;
-            width: 35%;
-            font-size: 1.2rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            outline: none;
-        }
-
-        /* span */
-        span {
-            color: chocolate;
-            font-size: 1.3rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+        @apply w-[55%] flex items-center justify-between;
     }
 
-    /* .transaction-body */
+    .container-title-months button {
+        @apply bg-[olive] cursor-pointer text-[black] w-[35%] text-[1.2rem] p-[0.3rem] rounded-[0.3rem] border-[none] outline-none font-sans;
+    }
+
+    .container-title-months span {
+        @apply text-[chocolate] text-[1.3rem] font-sans;
+    }
+
     .transaction-body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 50rem;
-        overflow: scroll;
+        @apply flex flex-col items-center justify-center h-[50rem] overflow-scroll;
+    }
 
-        /* .transaction */
-        .transaction {
-            background-color: #181423;
-            border-radius: 0.5rem;
-            height: 7rem;
-            width: 95%;
-            margin-top: 5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+    .transaction {
+        @apply bg-[#181423] h-28 w-[95%] flex items-center justify-between mt-[5%] rounded-lg;
+    }
 
-            /* .description-section */
-            .description-section,
-            .date-section,
-            .id-section,
-            .amount-section,
-            .delete-section {
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-            }
+    .description-section,
+    .date-section,
+    .id-section,
+    .amount-section,
+    .delete-section {
+        @apply font-sans;
+    }
 
-            /* values numbers */
-            .id-section span {
-                font-family: 'Alice', serif;
-                font-size: 1.3rem;
-            }
+    .id-section span {
+        @apply text-[1.3rem] font-sans;
 
-            .date-section span {
-                font-family: 'Alice', serif;
-                font-size: 1.3rem;
-            }
+    }
 
-            .amount-section span {
-                font-family: 'Alice', serif;
-                font-size: 1.7rem;
-                font-weight: 600;
-            }
+    .date-section span {
+        @apply text-[1.3rem] font-sans;
 
-            /* .base-column */
-            .base-column {
-                color: white;
-                display: flex;
-                flex-direction: column;
-                font-size: 1.3rem;
-                padding: 0rem 0.5rem;
+    }
 
-                /* span */
-                span {
-                    color: chocolate;
-                    margin-top: 0.5rem;
-                }
+    .amount-section span {
+        @apply text-[1.7rem] font-sans font-semibold;
 
-                /* svg */
-                svg {
-                    cursor: pointer;
-                    fill: chocolate;
-                    height: 1.5rem;
-                    width: 1.5rem;
-                    margin-top: 0.5rem;
-                }
-            }
+    }
 
-            /* .base-column-amount */
-            .base-column-amount {
-                color: white;
-                display: flex;
-                flex-direction: column;
-                font-size: 1.3rem;
-                padding: 0rem 0.5rem;
+    /* .base-column */
+    .base-column {
+        @apply text-[white] flex flex-col text-[1.3rem] px-2 py-0;
+    }
 
-                /* span */
-                span {
+    /* span */
+    .base-column span {
+        @apply text-[chocolate] mt-2;
+    }
 
-                    margin-top: 0.5rem;
-                }
+    /* svg */
+    .base-column svg {
+        @apply cursor-pointer fill-[chocolate] h-6 w-6 mt-2;
+    }
 
+    .base-column-amount {
+        @apply text-[white] flex flex-col text-[1.3rem] px-2 py-0;
+    }
 
-            }
+    .base-column-amount span {
+        @apply mt-2;
+    }
 
-            /* class bindind amount */
-            .bind-income {
-                color: green;
-            }
+    .bind-income {
+        @apply text-[green];
+    }
 
-            .bind-expense {
-                color: crimson;
-            }
-        }
+    .bind-expense {
+        @apply text-[crimson];
     }
 }
 </style>

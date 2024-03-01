@@ -3,8 +3,8 @@ import { Chart } from 'chart.js/auto';
 
 import { useTransactionsStore } from '../store/transactionsStore';
 
-const transactionStore = useTransactionsStore();
-const { transactions, expense, income, total } = storeToRefs(transactionStore);
+const transactionsStore = useTransactionsStore();
+const { transactions, expense, total, income } = storeToRefs(transactionsStore);
 
 const myChart = ref(null);
 let doughnutChart: Chart<"doughnut", number[], string> | null = null;
@@ -54,10 +54,12 @@ const updatePercentualChart = ()=>{
     allTransactions.forEach((transaction) => {
         if (doughnutChart && transaction.transactionType === 'income' && Number(transaction.amount) > 0) {
             doughnutChart.data.datasets[0].data[0] = Number(income.value);
+            
             doughnutChart.update();
 
         } else if (doughnutChart && transaction.transactionType === 'expense' && Number(transaction.amount) < 0) {
             doughnutChart.data.datasets[0].data[1] = Number(expense.value); 
+            
             doughnutChart.update();
         }
     })
@@ -65,12 +67,14 @@ const updatePercentualChart = ()=>{
 
 const absPercentualValue = computed(()=> Math.abs(calculatePercentualValue.value) )
 
-watch([transactions, total, income, expense], () => {
+watch([transactions, total, expense], () => {
     updatePercentualChart();
+    
 })
 
 onMounted(() => {
     createChart();
+    
 })
 
 </script>
@@ -92,42 +96,33 @@ onMounted(() => {
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style  scoped>
 /* .doughnut-chart */
-.doughnut-chart {
-    height: 17rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1rem;
 
-    /* .chart */
-    .chart {
-        height: 100%;
-        width: 15%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-        /* .percentual-value */
-        .percentual-value {
-            
-            font-size: 2.5rem;
-            position: absolute;
-            top: 45%;
-            font-family: 'Alice', serif;
-            font-weight: 600;
-        }
-
-        .income{
-            color: green;
-        }
-        .expense{
-            color: crimson;
-        }
+@layer components {
+    .doughnut-chart {
+      @apply h-[17rem] w-full flex items-center justify-center mt-4;
     }
+    
+    .chart {
+      @apply h-full w-[15%] flex items-center justify-center relative;
+    }
+    
+    .percentual-value {
+      @apply text-[2.5rem] absolute font-semibold top-[45%] font-sans;
+      
+    }
+    .income {
+      @apply text-[green];
+    }
+    .expense {
+      @apply text-[crimson];
+    }
+
 }
 
 </style>

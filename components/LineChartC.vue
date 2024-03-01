@@ -4,8 +4,8 @@ import { Chart } from 'chart.js/auto';
 import { useTransactionsStore } from '../store/transactionsStore';
 import { useDateStore } from '../store/dateFilterStore';
 
-const transactionStore = useTransactionsStore();
-const {filteredList, transactions, total, income, expense } = storeToRefs(transactionStore);
+const transactionsStore = useTransactionsStore();
+const { filteredList, transactions, total, income, expense } = storeToRefs(transactionsStore);
 const dateStore = useDateStore();
 
 const myChart = ref(null);
@@ -28,13 +28,13 @@ const createLineChart = () => {
             amountsTransactions.push(totalAmount.value);
             transactionTypes.value = transaction.transactionType
         });
-        
+
         let borderColorGraph = computed(() => total.value > 0 ? 'green' : 'crimson');
 
         const ctx = myChart.value;
 
         if (lineChart) {
-            lineChart.data.labels = datesTransactions;
+            lineChart.data.labels = datesTransactions
             lineChart.data.datasets[0].data = amountsTransactions;
             lineChart.data.datasets[0].borderColor = borderColorGraph.value
             lineChart.update();
@@ -73,15 +73,13 @@ const createLineChart = () => {
 
 
 watch(total, () => {
-    createLineChart()
-    console.log(`income ->`, income.value);
-    console.log(`expense ->`, expense.value);
-    
-    
+    createLineChart();
+
 })
 
 onMounted(() => {
     createLineChart();
+
 })
 
 
@@ -99,36 +97,29 @@ onMounted(() => {
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style  scoped>
 /* .line-chart */
-.line-chart {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-    height: 17rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1rem;
+@layer components {
+
+    /* .line-chart */
+    .line-chart {
+        @apply h-[17rem] w-full flex items-center justify-center mt-4;
+    }
 
     /* .chart */
-    .chart {
-
-        height: 100%;
-        width: 35rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-
-
+    .line-chart .chart {
+        @apply h-full w-[35rem] flex items-center justify-center;
     }
-}
 
-.income {
-    color: green;
-}
+    .income {
+        @apply text-[green];
+    }
 
-.expense {
-    color: #dc143c;
-}
-</style>
+    .expense {
+        @apply text-[#dc143c];
+    }
+}</style>

@@ -8,7 +8,7 @@ import type { Transaction } from '~/types/transaction';
 const dateStore = useDateStore();
 const transactionsStore = useTransactionsStore();
 
-const { filteredList, transactions, total } = storeToRefs(transactionsStore);
+const { filteredList, transactions, total, expense, income } = storeToRefs(transactionsStore);
 
 const contentFields = ref(/^\s*$/);
 const contentAmount = ref(/^\d+$/);
@@ -17,6 +17,8 @@ const transactionTitle = ref('');
 const transactionDate = ref(new Date());
 const transactionAmount = ref<number | undefined>(undefined);
 let count = ref(0);
+
+
 
 /* Functions() */
 const formatedDate = (date: Date) => {
@@ -41,7 +43,6 @@ const saveTransaction = () => {
         parseFloat(`${transactionAmount.value *= -1}`)
     }
 
-
     const transaction = {
         id: count.value++,
         title: transactionTitle.value,
@@ -56,11 +57,12 @@ const saveTransaction = () => {
     transactionAmount.value = undefined;
     transactionType.value = 'income';
 
-    
-    
 };
 
-  
+onMounted(() => {
+    //transactionsStore.fetchTransactions();
+
+})
 </script>
 
 <template>
@@ -108,127 +110,103 @@ const saveTransaction = () => {
 
 <style scoped>
 /* .container-form */
-.container-form {
-    background-color: #181423;
-    border-radius: 0.5rem;
-    margin-top: 4rem;
-    padding: 1rem;
-    width: 50%;
-    margin-left: 1rem;
 
-    /* .form-elements */
-    .form-elements {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 10rem;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-        /* .header-form */
-        .header-form {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
+@layer components {
+    .container-form {
+  @apply bg-[#181423] w-6/12 ml-4 mt-16 p-4 rounded-lg;
+}
 
-            /* h3 */
-            h3 {
-                color: cadetblue;
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-            }
-
-            /* .section-transaction-type */
-            .section-transaction-type {
-                display: flex;
-
-                /* .income-section, .expense-section */
-                .income-section,
-                .expense-section {
-
-                    margin-right: 1rem;
-                    font-family: Verdana, Geneva, Tahoma, sans-serif;
-                    font-size: 1.1rem;
-                }
-
-                /* .income-section */
-                .income-section {
-                    color: green;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    width: 5.5rem;
-
-                    /* input */
-                    input {
-                        accent-color: green;
-                    }
-                }
-
-                /* .income-section */
-                .expense-section {
-                    color: crimson;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
-                    width: 6rem;
-
-                    /* input */
-                    input {
-                        accent-color: crimson;
-                    }
-                }
-            }
-        }
-
-        /* .base-column */
-        .base-column {
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-
-
-            /* input */
-            input {
-                margin-left: 0.5rem;
-                outline: none;
-                padding: 0.3rem;
-                border: 0;
-                border-bottom: 0.1rem solid chocolate;
-                background-color: transparent;
-                color: chocolate;
-            }
-
-            /* label */
-            label {
-                color: chocolate;
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-            }
-        }
-
-        /* .btn */
-        .btn {
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            /* button */
-            button {
-                padding: 0.5rem;
-                font-family: Verdana, Geneva, Tahoma, sans-serif;
-                font-weight: bold;
-                font-size: 1rem;
-                transition: all 0.3s;
-                border: none;
-                background-color: olive;
-                border-radius: 0.3rem;
-                color: black;
-                cursor: pointer;
-                width: 100%;
-            }
-        }
-    }
-
+/* .form-elements */
+.container-form .form-elements {
+  @apply flex flex-col justify-between h-40;
+}
+/* .header-form */
+.container-form .form-elements .header-form {
+  @apply flex items-center justify-between w-full;
+}
+/* h3 */
+.container-form .form-elements .header-form h3 {
+  @apply text-[cadetblue];
+  /* font */
+}
+/* .section-transaction-type */
+.container-form .form-elements .header-form .section-transaction-type {
+  @apply flex;
+}
+/* .income-section, .expense-section */
+.container-form
+  .form-elements
+  .header-form
+  .section-transaction-type
+  .income-section,
+.container-form
+  .form-elements
+  .header-form
+  .section-transaction-type
+  .expense-section {
+  @apply text-[1.1rem] mr-4 font-sans;
+  /* font */
+}
+/* .income-section */
+.container-form
+  .form-elements
+  .header-form
+  .section-transaction-type
+  .income-section {
+  @apply text-[green] flex items-center justify-between w-[5.5rem];
+}
+/* input */
+.container-form
+  .form-elements
+  .header-form
+  .section-transaction-type
+  .income-section
+  input {
+  @apply accent-[green];
+}
+/* .income-section */
+.container-form
+  .form-elements
+  .header-form
+  .section-transaction-type
+  .expense-section {
+  @apply text-[crimson] flex items-center justify-between w-24;
+}
+/* input */
+.container-form
+  .form-elements
+  .header-form
+  .section-transaction-type
+  .expense-section
+  input {
+  @apply accent-[crimson];
+}
+/* .base-column */
+.container-form .form-elements .base-column {
+  @apply flex items-center justify-between;
+}
+/* input */
+.container-form .form-elements .base-column input {
+  @apply bg-transparent text-[chocolate] ml-2 p-[0.3rem] border-b-[0.1rem] border-b-[chocolate] border-0 border-solid outline-none;
+  
+}
+/* label */
+.container-form .form-elements .base-column label {
+  @apply text-[chocolate] font-sans;
+  /* font */
+}
+/* .btn */
+.container-form .form-elements .btn {
+  @apply flex items-center justify-center;
+}
+/* button */
+.container-form .form-elements .btn button {
+  @apply font-[bold] text-base transition-all duration-[0.3s] bg-[olive] text-[black] cursor-pointer w-full p-2 rounded-[0.3rem] border-[none] font-sans;
+  /* font */
+}
 }
 </style>

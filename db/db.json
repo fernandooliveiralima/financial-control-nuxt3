@@ -1,5 +1,242 @@
 {
-    "transactions": [
-      { "id": 1, "title": "a title", "amount": 20, "date": "2024-04-17", "transactionType": "income" }
-    ]
-  }
+  "allTransactions": [
+    {
+      "id": 1,
+      "title": "a title",
+      "amount": 20,
+      "date": "2024-04-17",
+      "transactionType": "income"
+    },
+    {
+      "id": 2,
+      "title": "asa",
+      "amount": 123,
+      "date": "2024-02-13T17:32:22.227Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 3,
+      "title": "casa",
+      "amount": 45,
+      "date": "2024-02-13T17:42:24.520Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 4,
+      "title": "vfvf",
+      "amount": -78,
+      "date": "2024-02-13T17:45:31.590Z",
+      "transactionType": "expense"
+    },
+    {
+      "id": 5,
+      "title": "de",
+      "amount": -14,
+      "date": "2024-02-13T17:51:40.353Z",
+      "transactionType": "expense"
+    },
+    {
+      "id": 6,
+      "title": "casa",
+      "amount": 123,
+      "date": "2024-02-13T18:09:25.765Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 7,
+      "title": "casa",
+      "amount": 123,
+      "date": "2024-02-13T18:14:30.741Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 8,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T18:25:32.136Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 9,
+      "title": "casa",
+      "amount": 12,
+      "date": "2024-02-13T18:26:04.089Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 10,
+      "title": "asa",
+      "amount": 234,
+      "date": "2024-02-13T18:33:05.731Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 11,
+      "title": "casa",
+      "amount": 12,
+      "date": "2024-02-13T18:40:28.205Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 12,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T18:55:30.585Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 13,
+      "title": "asa",
+      "amount": 34,
+      "date": "2024-02-13T19:26:47.121Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 14,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T20:05:18.085Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 15,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T20:07:02.711Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 16,
+      "title": "frfr",
+      "amount": 12,
+      "date": "2024-02-13T20:08:44.282Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 17,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T20:30:37.377Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 18,
+      "title": "asa",
+      "amount": 123,
+      "date": "2024-02-13T20:47:18.265Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 19,
+      "title": "asa",
+      "amount": 123,
+      "date": "2024-02-13T20:48:32.615Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 20,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T00:00:00.000Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 21,
+      "title": "se",
+      "amount": 23,
+      "date": "2024-02-13T20:50:44.893Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 22,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-13T22:48:30.374Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 23,
+      "title": "asa",
+      "amount": 1,
+      "date": "2024-02-13T22:52:42.624Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 24,
+      "title": "fernando",
+      "amount": -12,
+      "date": "2024-02-21T00:00:00.000Z",
+      "transactionType": "expense"
+    },
+    {
+      "id": 25,
+      "title": "casa",
+      "amount": 67,
+      "date": "2024-02-21T20:22:49.787Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 26,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-21T20:35:57.570Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 27,
+      "title": "bg",
+      "amount": -4000,
+      "date": "2024-02-21T00:00:00.000Z",
+      "transactionType": "expense"
+    },
+    {
+      "id": 28,
+      "title": "by",
+      "amount": -56,
+      "date": "2024-02-21T20:44:30.484Z",
+      "transactionType": "expense"
+    },
+    {
+      "id": 29,
+      "title": "asa",
+      "amount": 12,
+      "date": "2024-02-22T18:32:21.610Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 30,
+      "title": "casa",
+      "amount": 12,
+      "date": "2024-02-22T18:36:42.975Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 31,
+      "title": "casa",
+      "amount": 34,
+      "date": "2024-02-22T18:37:10.184Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 32,
+      "title": "casa",
+      "amount": 12,
+      "date": "2024-02-22T18:37:20.449Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 33,
+      "title": "casa",
+      "amount": 12,
+      "date": "2024-02-22T18:39:26.890Z",
+      "transactionType": "income"
+    },
+    {
+      "id": 34,
+      "title": "casa",
+      "amount": 12,
+      "date": "2024-02-22T18:40:47.564Z",
+      "transactionType": "income"
+    }
+  ]
+}

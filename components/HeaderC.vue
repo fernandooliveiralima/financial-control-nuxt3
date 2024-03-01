@@ -1,49 +1,45 @@
 <template>
-    <div class="header-container">
-        <div class="header-elements">
-            <h1>Financial Control</h1>
-            <NuxtLink to="/transactions">
-                <span>Transactions</span>
-            </NuxtLink>
-        </div>
+  <div class="header-container">
+    <div class="header-elements">
+      <h1>Financial Control</h1>
+      <NuxtLink to="/transactions">
+        <span>Transactions</span>
+      </NuxtLink>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-    
+
 </script>
 
 <style scoped>
 /* .header-container */
-.header-container {
-    background-color: #181423;
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-    /* .header-elements */
-    .header-elements{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 95%;
+@layer components {
 
-        /* h1 */
-        h1{
-            color: white;
-            font-size: 2rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-        }
+  /* .header-container */
+  .header-container {
+    @apply bg-[#181423] h-20 flex items-center justify-around;
+  }
 
-        /* a */
-        a{
-            color: white;
-            font-size: 1.5rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            text-decoration: none;
-        }
-    }
-}
-</style>
+  /* .header-elements */
+  .header-container .header-elements {
+    @apply flex items-center justify-between w-[95%];
+  }
+
+  /* h1 */
+  .header-container .header-elements h1 {
+    @apply text-[white] text-[2rem] font-sans;
+
+  }
+
+  /* a */
+  .header-container .header-elements a {
+    @apply text-[white] text-2xl no-underline font-sans;
+
+  }
+}</style>
