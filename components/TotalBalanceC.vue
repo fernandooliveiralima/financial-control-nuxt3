@@ -40,7 +40,7 @@ onMounted(() => {
 @layer components {
     /* .container-totalBalance */
 .container-totalBalance {
-  @apply mb-[-20rem] w-2/5 mr-4;
+  @apply mb-[-20rem] w-[40rem] ml-[-45rem];
 }
 
 /* .totalBalance-details */

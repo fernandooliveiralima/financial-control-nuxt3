@@ -117,7 +117,7 @@ onMounted(() => {
 
 @layer components {
     .container-form {
-  @apply bg-[#181423] w-6/12 ml-4 mt-16 p-4 rounded-lg;
+  @apply bg-[#181423] w-[130%] ml-4 mt-16 p-4 rounded-lg;
 }
 
 /* .form-elements */

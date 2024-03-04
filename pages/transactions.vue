@@ -12,35 +12,28 @@
     </div>
 </template>
 
-<script setup lang="ts">
-import { useTransactionsStore } from '../store/transactionsStore'
-
-
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
-/* .homePage-ccontainer */
-.homePage-container {
-    background-color: #272234;
-    height: 100vh;
-    width: 100%;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    /* .homePage-ccontainer */
+    .homePage-container {
+        @apply bg-[#272234] h-screen w-full;
+    }
 
     /* .home-components */
-    .header-link {
-        background-color: #181423;
-        height: 5rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-
-        /* a */
-        a {
-            color: white;
-            font-size: 1.5rem;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            text-decoration: none;
-        }
-
+    .homePage-container .header-link {
+        @apply bg-[#181423] h-20 flex items-center justify-around;
     }
-}
-</style>
+
+    /* a */
+    .homePage-container .header-link a {
+        @apply text-[white] text-2xl no-underline font-sans;
+        
+    }
+}</style>

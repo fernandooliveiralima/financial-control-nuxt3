@@ -1,50 +1,58 @@
 <template>
     <div class="homePage-container">
+
         <section class="home-components">
+
             <HeaderC></HeaderC>
 
-            <div class="transactions-data">
-                <TransactionsInfoC></TransactionsInfoC>
-                <TotalBalanceC></TotalBalanceC>
+            <div class="">
+
+                <div class="flex items-center justify-between">
+
+                    <div class="flex flex-col">
+                        <TransactionsInfoC></TransactionsInfoC>
+                        <FormTransactionsC></FormTransactionsC>
+                    </div>
+
+                    <div class="">
+                        <TotalBalanceC></TotalBalanceC>
+                    </div>
+
+                </div>
+                <DoughnutChartC></DoughnutChartC>
                 
+
             </div>
-            
-            <FormTransactionsC></FormTransactionsC>
-            <DoughnutChartC></DoughnutChartC>
-            
+
+
+
         </section>
 
     </div>
 </template>
 
 <script setup lang="ts">
-    
+
 </script>
 
 <style scoped>
 /* .homePage-ccontainer */
-.homePage-container {
-    background-color: #272234;
-    height: 100vh;
-    width: 100%;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .homePage-container {
+        @apply bg-[#272234] h-screen w-full;
+    }
 
     /* .transactions-data */
-    .transactions-data {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+    .homePage-container .transactions-data {
+        @apply flex items-center justify-between w-full;
     }
-    .teste{
-        color: white;
-        background-color: #181423;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 15rem;
-        width: 100%;
-        margin-top: 2.5rem;
-        
+
+    .homePage-container .teste {
+        @apply text-[white] bg-[#181423] flex items-center justify-center h-60 w-full mt-10;
     }
 }
 </style>
